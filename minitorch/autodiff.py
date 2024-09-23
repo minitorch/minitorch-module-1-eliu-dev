@@ -23,7 +23,20 @@ def central_difference(f: Any, *vals: Any, arg: int = 0, epsilon: float = 1e-6) 
         An approximation of $f'_i(x_0, \ldots, x_{n-1})$
     """
     # TODO: Implement for Task 1.1.
-    raise NotImplementedError("Need to implement for Task 1.1")
+    # Create lists from the input tuple for easy modification
+    vals_plus = list(vals)
+    vals_minus = list(vals)
+    
+    # Modify the arg-th element for both forward and backward difference
+    vals_plus[arg] += epsilon
+    vals_minus[arg] -= epsilon
+    
+    # Calculate f(x + epsilon) and f(x - epsilon)
+    f_plus = f(*vals_plus)
+    f_minus = f(*vals_minus)
+    
+    # Return the central difference
+    return (f_plus - f_minus) / (2 * epsilon)
 
 
 variable_count = 1
@@ -62,7 +75,19 @@ def topological_sort(variable: Variable) -> Iterable[Variable]:
         Non-constant Variables in topological order starting from the right.
     """
     # TODO: Implement for Task 1.4.
-    raise NotImplementedError("Need to implement for Task 1.4")
+    visited = set()
+    def visit(v: Variable):
+        if v.unique_id not in visited:
+            visited.add(v.unique_id)
+        for parent in v.parents:
+            if not parent.is_constant():
+                visit(parent)
+        sorted_nodes.append(v)
+    
+    sorted_nodes = []
+    visit(variable)
+    while sorted_nodes:
+        yield sorted_nodes.pop()
 
 
 def backpropagate(variable: Variable, deriv: Any) -> None:
@@ -76,8 +101,30 @@ def backpropagate(variable: Variable, deriv: Any) -> None:
 
     No return. Should write to its results to the derivative values of each leaf through `accumulate_derivative`.
     """
-    # TODO: Implement for Task 1.4.
-    raise NotImplementedError("Need to implement for Task 1.4")
+    sorted_nodes = list(topological_sort(variable))
+    derivatives = {variable.unique_id: deriv}
+    
+    for node in sorted_nodes:
+        if node.unique_id in derivatives:
+            d_output = derivatives[node.unique_id]
+            
+            if node.is_leaf():
+                node.accumulate_derivative(d_output)
+            else:
+                for parent, grad in node.chain_rule(d_output):
+                    if parent.unique_id not in derivatives:
+                        derivatives[parent.unique_id] = grad
+                    else:
+                        derivatives[parent.unique_id] += grad
+                    
+                    # If this parent is a leaf, immediately accumulate its derivative
+                    if parent.is_leaf():
+                        parent.accumulate_derivative(derivatives[parent.unique_id])
+                        del derivatives[parent.unique_id]  # Clean up to save memory
+            
+            # Clean up processed non-leaf nodes to save memory
+            if not node.is_leaf():
+                del derivatives[node.unique_id]
 
 
 @dataclass

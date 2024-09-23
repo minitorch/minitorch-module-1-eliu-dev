@@ -104,13 +104,35 @@ class Mul(ScalarFunction):
     @staticmethod
     def forward(ctx: Context, a: float, b: float) -> float:
         # TODO: Implement for Task 1.2.
-        raise NotImplementedError("Need to implement for Task 1.2")
+        """
+            Return the product of a and b.
+
+            Args:
+                a: float
+                b: float
+
+            Returns:
+                The product of a and b as a float.
+        """
+        ctx.save_for_backward(a,b)
+        return operators.mul(a,b)
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> Tuple[float, float]:
         # TODO: Implement for Task 1.4.
-        raise NotImplementedError("Need to implement for Task 1.4")
+        """
+            Return the derivatives of a and b with respect to the output.
 
+            Args:
+                d_output: float
+
+            Returns:
+                The derivatives of a and b with respect to the output as a tuple.
+        """
+        (a, b) = ctx.saved_values
+        dx_a = d_output * b
+        dx_b = d_output * a
+        return (dx_a, dx_b)
 
 class Inv(ScalarFunction):
     "Inverse function"
@@ -118,12 +140,32 @@ class Inv(ScalarFunction):
     @staticmethod
     def forward(ctx: Context, a: float) -> float:
         # TODO: Implement for Task 1.2.
-        raise NotImplementedError("Need to implement for Task 1.2")
+        """
+            Return the inverse of a.
+
+            Args:
+                a: float
+
+            Returns:
+                The inverse of a as a float.
+        """
+        ctx.save_for_backward(a)
+        return operators.inv(a)
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> float:
         # TODO: Implement for Task 1.4.
-        raise NotImplementedError("Need to implement for Task 1.4")
+        """
+            Return the derivative of a with respect to the output.
+
+            Args:
+                d_output: float
+
+            Returns:
+                The derivative of a with respect to the output as a float.
+        """
+        (a,) = ctx.saved_values
+        return operators.inv_back(a, d_output)
 
 
 class Neg(ScalarFunction):
@@ -132,12 +174,32 @@ class Neg(ScalarFunction):
     @staticmethod
     def forward(ctx: Context, a: float) -> float:
         # TODO: Implement for Task 1.2.
-        raise NotImplementedError("Need to implement for Task 1.2")
+        """
+            Return the negation of a.
+
+            Args:
+                a: float
+
+            Returns:
+                The negation of a as a float.
+        """
+        ctx.save_for_backward(a)
+        return operators.neg(a)
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> float:
         # TODO: Implement for Task 1.4.
-        raise NotImplementedError("Need to implement for Task 1.4")
+        """
+            Return the derivative of a with respect to the output.
+
+            Args:
+                d_output: float
+
+            Returns:
+                The derivative of a with respect to the output as a float.
+        """
+        (a,) = ctx.saved_values
+        return -1.0 * d_output
 
 
 class Sigmoid(ScalarFunction):
@@ -146,13 +208,34 @@ class Sigmoid(ScalarFunction):
     @staticmethod
     def forward(ctx: Context, a: float) -> float:
         # TODO: Implement for Task 1.2.
-        raise NotImplementedError("Need to implement for Task 1.2")
+        """
+            Return the sigmoid of a.
+
+            Args:
+                a: float
+
+            Returns:
+                The sigmoid of a as a float.
+        """
+        sig = operators.sigmoid(a)
+        ctx.save_for_backward(sig)
+        return sig
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> float:
         # TODO: Implement for Task 1.4.
-        raise NotImplementedError("Need to implement for Task 1.4")
+        """
+            Return the derivative of a with respect to the output.
 
+            Args:
+                d_output: float
+
+            Returns:
+                The derivative of a with respect to the output as a float.
+        """
+        (sig,) = ctx.saved_values
+        d_sig = sig * (1 - sig)
+        return d_output * d_sig
 
 class ReLU(ScalarFunction):
     "ReLU function"
@@ -160,12 +243,32 @@ class ReLU(ScalarFunction):
     @staticmethod
     def forward(ctx: Context, a: float) -> float:
         # TODO: Implement for Task 1.2.
-        raise NotImplementedError("Need to implement for Task 1.2")
+        """
+            Return the ReLU of a.
+
+            Args:
+                a: float
+
+            Returns:
+                The ReLU of a as a float.
+        """
+        ctx.save_for_backward(a)
+        return operators.relu(a)
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> float:
         # TODO: Implement for Task 1.4.
-        raise NotImplementedError("Need to implement for Task 1.4")
+        """
+            Return the derivative of a with respect to the output.
+
+            Args:
+                d_output: float
+
+            Returns:
+                The derivative of a with respect to the output as a float.
+        """
+        (a,) = ctx.saved_values
+        return operators.relu_back(a, d_output)
 
 
 class Exp(ScalarFunction):
@@ -174,12 +277,34 @@ class Exp(ScalarFunction):
     @staticmethod
     def forward(ctx: Context, a: float) -> float:
         # TODO: Implement for Task 1.2.
-        raise NotImplementedError("Need to implement for Task 1.2")
+        """
+            Return the exponential of a.
+
+            Args:
+                a: float
+
+            Returns:
+                The exponential of a as a float.
+        """
+        exp_a = operators.exp(a)
+        ctx.save_for_backward(exp_a)
+        return exp_a
+
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> float:
         # TODO: Implement for Task 1.4.
-        raise NotImplementedError("Need to implement for Task 1.4")
+        """
+            Return the derivative of a with respect to the output.
+
+            Args:
+                d_output: float
+
+            Returns:
+                The derivative of a with respect to the output as a float.
+        """
+        (exp_a,) = ctx.saved_values
+        return d_output * exp_a
 
 
 class LT(ScalarFunction):
@@ -188,13 +313,31 @@ class LT(ScalarFunction):
     @staticmethod
     def forward(ctx: Context, a: float, b: float) -> float:
         # TODO: Implement for Task 1.2.
-        raise NotImplementedError("Need to implement for Task 1.2")
+        """
+            Return 1.0 if a is less than b, else return 0.0.
+
+            Args:
+                a: float
+                b: float
+
+            Returns:
+                The result of the less-than comparison as a float.
+        """
+        return operators.lt(a,b)
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> Tuple[float, float]:
         # TODO: Implement for Task 1.4.
-        raise NotImplementedError("Need to implement for Task 1.4")
+        """
+            Return the derivative of a with respect to the output.
 
+            Args:
+                d_output: float
+
+            Returns:
+                0 as a float because the derivative of a less-than comparison is the derivative of a constant.
+        """
+        return (0.0, 0.0)
 
 class EQ(ScalarFunction):
     "Equal function $f(x) =$ 1.0 if x is equal to y else 0.0"
@@ -202,9 +345,28 @@ class EQ(ScalarFunction):
     @staticmethod
     def forward(ctx: Context, a: float, b: float) -> float:
         # TODO: Implement for Task 1.2.
-        raise NotImplementedError("Need to implement for Task 1.2")
+        """
+            Return 1.0 if a is equal to b, else return 0.0.
+
+            Args:
+                a: float
+                b: float
+
+            Returns:
+                The result of the equality comparison as a float.
+        """
+        return operators.eq(a,b)
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> Tuple[float, float]:
         # TODO: Implement for Task 1.4.
-        raise NotImplementedError("Need to implement for Task 1.4")
+        """
+            Return the derivative of a with respect to the output.
+
+            Args:
+                d_output: float
+
+            Returns:
+                0 as a float because the derivative of an equality comparison is the derivative of a constant.
+        """
+        return (0.0, 0.0)
