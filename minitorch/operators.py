@@ -165,6 +165,7 @@ def relu(x: float) -> float:
 
 EPS = 1e-6
 
+
 def log(x: float) -> float:
     """Return the natural logarithm of x.
 
@@ -304,13 +305,15 @@ def zipWith(
     def apply(ls1: Iterable[float], ls2: Iterable[float]) -> Iterable[float]:
         result = []
         for x, y in zip(ls1, ls2):
-            result.append(fn(x,y))
+            result.append(fn(x, y))
         return result
 
     return apply
 
 
-def reduce(fn: Callable[[float, float], float]) -> Callable[[Iterable[float]], float]:
+def reduce(
+    fn: Callable[[float, float], float], start: float
+) -> Callable[[Iterable[float]], float]:
     """Reduce a list to a single value by applying a function to the elements of the list.
 
     Args:
