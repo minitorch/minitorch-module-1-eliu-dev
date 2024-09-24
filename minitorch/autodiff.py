@@ -76,24 +76,26 @@ def topological_sort(variable: Variable) -> Iterable[Variable]:
     """
     # TODO: Implement for Task 1.4.
     visited = set()
+    result = []
     def visit(v: Variable):
         if v.unique_id not in visited:
             visited.add(v.unique_id)
+        else:
+            return
         for parent in v.parents:
             if not parent.is_constant():
                 visit(parent)
-        sorted_nodes.append(v)
+        result.append(v)
     
-    sorted_nodes = []
     visit(variable)
-    while sorted_nodes:
-        yield sorted_nodes.pop()
+    result.reverse()
+    return result
 
 
 def backpropagate(variable: Variable, deriv: Any) -> None:
     """
     Runs backpropagation on the computation graph in order to
-    compute derivatives for the leave nodes.
+    compute derivatives for the leave vars.
 
     Args:
         variable: The right-most variable
@@ -101,31 +103,20 @@ def backpropagate(variable: Variable, deriv: Any) -> None:
 
     No return. Should write to its results to the derivative values of each leaf through `accumulate_derivative`.
     """
-    sorted_nodes = list(topological_sort(variable))
+    sorted_var = topological_sort(variable)
     derivatives = {variable.unique_id: deriv}
     
-    for node in sorted_nodes:
-        if node.unique_id in derivatives:
-            d_output = derivatives[node.unique_id]
-            
-            if node.is_leaf():
-                node.accumulate_derivative(d_output)
-            else:
-                for parent, grad in node.chain_rule(d_output):
-                    if parent.unique_id not in derivatives:
-                        derivatives[parent.unique_id] = grad
-                    else:
-                        derivatives[parent.unique_id] += grad
-                    
-                    # If this parent is a leaf, immediately accumulate its derivative
-                    if parent.is_leaf():
-                        parent.accumulate_derivative(derivatives[parent.unique_id])
-                        del derivatives[parent.unique_id]  # Clean up to save memory
-            
-            # Clean up processed non-leaf nodes to save memory
-            if not node.is_leaf():
-                del derivatives[node.unique_id]
-
+    for var in sorted_var:
+        if var.is_leaf():
+            var.accumulate_derivative(derivatives[var.unique_id])
+            print(f'Unique ID: {var.unique_id}, Derivative: {var.derivative}, Derivatives: {derivatives[var.unique_id]}', flush=True)
+        else:
+            for parent, grad in var.chain_rule(derivatives[var.unique_id]):
+                if parent.unique_id not in derivatives:
+                    derivatives[parent.unique_id] = grad
+                else:
+                    derivatives[parent.unique_id] += grad
+    print(derivatives, flush=True)
 
 @dataclass
 class Context:

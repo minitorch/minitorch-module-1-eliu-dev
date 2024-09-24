@@ -173,11 +173,6 @@ class Scalar:
         assert h.ctx is not None
 
         derivatives = h.last_fn._backward(h.ctx, d_output)
-        
-        # Ensure derivatives is always a tuple
-        if not isinstance(derivatives, tuple):
-            derivatives = (derivatives,)
-        
         return zip(h.inputs, derivatives)
 
     def backward(self, d_output: Optional[float] = None) -> None:

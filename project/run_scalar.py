@@ -2,6 +2,7 @@
 Be sure you have minitorch installed in you Virtual Env.
 >>> pip install -Ue .
 """
+
 import random
 
 import minitorch
@@ -11,7 +12,10 @@ class Network(minitorch.Module):
     def __init__(self, hidden_layers):
         super().__init__()
         # TODO: Implement for Task 1.5.
-        raise NotImplementedError("Need to implement for Task 1.5")
+        self.hidden_layers = hidden_layers
+        self.layer1 = Linear(2, hidden_layers)
+        self.layer2 = Linear(hidden_layers, hidden_layers)
+        self.layer3 = Linear(hidden_layers, 1)
 
     def forward(self, x):
         middle = [h.relu() for h in self.layer1.forward(x)]
@@ -41,7 +45,12 @@ class Linear(minitorch.Module):
 
     def forward(self, inputs):
         # TODO: Implement for Task 1.5.
-        raise NotImplementedError("Need to implement for Task 1.5")
+        output = [0] * len(self.bias)
+        for i in range(len(inputs)):
+            for j in range(len(self.weights[i])):
+                output[j] += inputs[i] * self.weights[i][j].value + self.bias[j].value
+
+        return output
 
 
 def default_log_fn(epoch, total_loss, correct, losses):
@@ -104,4 +113,22 @@ if __name__ == "__main__":
     HIDDEN = 2
     RATE = 0.5
     data = minitorch.datasets["Simple"](PTS)
+    ScalarTrain(HIDDEN).train(data, RATE)
+
+    PTS = 50
+    HIDDEN = 2
+    RATE = 0.5
+    data = minitorch.datasets["Diag"](PTS)
+    ScalarTrain(HIDDEN).train(data, RATE)
+
+    PTS = 50
+    HIDDEN = 5
+    RATE = 0.5
+    data = minitorch.datasets["Split"](PTS)
+    ScalarTrain(HIDDEN).train(data, RATE)
+
+    PTS = 50
+    HIDDEN = 10
+    RATE = 0.5
+    data = minitorch.datasets["Xor"](PTS)
     ScalarTrain(HIDDEN).train(data, RATE)
