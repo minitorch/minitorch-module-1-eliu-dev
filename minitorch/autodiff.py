@@ -78,7 +78,7 @@ def topological_sort(variable: Variable) -> Iterable[Variable]:
     visited = set()
     result = []
 
-    def visit(v: Variable):
+    def visit(v: Variable) -> None:
         if v.unique_id not in visited:
             visited.add(v.unique_id)
         else:
