@@ -27,6 +27,7 @@ Hyperparameters:
 - Hidden: 2
 - Rate: 0.5
 - Epochs: 500
+- Data points: 50
 
 ![Simple](./simple.png)
 
@@ -36,6 +37,7 @@ Hyperparameters:
 - Hidden: 4
 - Rate: 0.5
 - Epochs: 500
+- Data points: 50
 
 ![Diag](./diag.png)
 
@@ -45,6 +47,7 @@ Hyperparameters:
 - Hidden: 5
 - Rate: 0.5
 - Epochs: 500
+- Data points: 50
 
 ![Split](./split.png)
 
@@ -54,6 +57,7 @@ Hyperparameters:
 - Hidden: 10
 - Rate: 0.5
 - Epochs: 500
+- Data points: 50
 
 ![Xor](./xor.png)
 
