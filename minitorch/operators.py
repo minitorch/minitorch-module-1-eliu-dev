@@ -330,8 +330,8 @@ def reduce(
     def apply(ls: Iterable[float]) -> float:
         # Ensure the list is not empty. We use a bool check to account for the fact that Iterables may not support len().
         val = start
-        for l in ls:
-            val = fn(val, l)
+        for element in ls:
+            val = fn(val, element)
         return val
 
     return apply
