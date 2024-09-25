@@ -80,63 +80,241 @@ class Scalar:
             self.name = str(self.unique_id)
 
     def __repr__(self) -> str:
+        """
+        Representation function
+
+        Args:
+        -----
+            None
+
+        Returns:
+        -------
+            String representation of the Scalar
+        """
         return "Scalar(%f)" % self.data
 
     def __mul__(self, b: ScalarLike) -> Scalar:
+        """
+        Multiplication function
+
+        Args:
+        -----
+            b: ScalarLike
+
+        Returns:
+        -------
+            Multiplication of self and b as a Scalar
+        """
         return Mul.apply(self, b)
 
     def __truediv__(self, b: ScalarLike) -> Scalar:
+        """
+        Division function
+
+        Args:
+        -----
+            b: ScalarLike
+
+        Returns:
+        -------
+            Division of self and b as a Scalar
+        """
         return Mul.apply(self, Inv.apply(b))
 
     def __rtruediv__(self, b: ScalarLike) -> Scalar:
+        """
+        Right division function
+
+        Args:
+        -----
+            b: ScalarLike
+
+        Returns:
+        -------
+            Division of b and self as a Scalar
+        """
         return Mul.apply(b, Inv.apply(self))
 
     def __add__(self, b: ScalarLike) -> Scalar:
+        """
+        Addition function
+
+        Args:
+        -----
+            b: ScalarLike
+
+        Returns:
+        -------
+            Addition of self and b as a Scalar
+        """
         return Add.apply(self, b)
 
     def __bool__(self) -> bool:
+        """
+        Boolean function
+
+        Args:
+        -----
+            None
+
+        Returns:
+        -------
+            Boolean of self as a Scalar
+        """
         return bool(self.data)
 
     def __lt__(self, b: ScalarLike) -> Scalar:
-        # TODO: Implement for Task 1.2.
+        """
+        Less than function
+
+        Args:
+        ----
+            b: ScalarLike
+
+        Returns:
+        -------
+            Scalar: 1.0 if self is less than b, else 0.0
+        """
         return LT.apply(self, b)
 
     def __gt__(self, b: ScalarLike) -> Scalar:
-        # TODO: Implement for Task 1.2.
+        """
+        Greater than function
+
+        Args:
+        -----
+            b: ScalarLike
+
+        Returns:
+        -------
+            Scalar: 1.0 if self is greater than b, else 0.0
+        """
         return LT.apply(b, self)
 
     def __eq__(self, b: ScalarLike) -> Scalar:  # type: ignore[override]
-        # TODO: Implement for Task 1.2.
+        """
+        Equal function
+
+        Args:
+        -----
+            b: ScalarLike
+
+        Returns:
+        -------
+            Scalar: 1.0 if self is equal to b, else 0.0
+        """
         return EQ.apply(self, b)
 
     def __sub__(self, b: ScalarLike) -> Scalar:
-        # TODO: Implement for Task 1.2.
+        """
+        Subtraction function
+
+        Args:
+        -----
+            b: ScalarLike
+
+        Returns:
+        -------
+            Subtraction of self and b as a Scalar
+        """
         return Add.apply(self, Neg.apply(b))
 
     def __neg__(self) -> Scalar:
-        # TODO: Implement for Task 1.2.
+        """
+        Negation function
+
+        Args:
+        -----
+            None
+
+        Returns:
+        -------
+            Negation of self as a Scalar
+        """
         return Neg.apply(self)
 
     def __radd__(self, b: ScalarLike) -> Scalar:
-        return self + b
+        """
+        Right addition function
+
+        Args:
+        -----
+            b: ScalarLike
+
+        Returns:
+        -------
+            Addition of self and b as a Scalar
+        """
+        return Add.apply(b, self)
 
     def __rmul__(self, b: ScalarLike) -> Scalar:
+        """
+        Right multiplication function
+
+        Args:
+        -----
+            b: ScalarLike
+
+        Returns:
+        -------
+            Multiplication of self and b as a Scalar
+        """
         return self * b
 
     def log(self) -> Scalar:
-        # TODO: Implement for Task 1.2.
+        """
+        Logarithm function
+
+        Args:
+        -----
+            None
+
+        Returns:
+        -------
+            Logarithm of self as a Scalar
+        """
         return Log.apply(self)
 
     def exp(self) -> Scalar:
-        # TODO: Implement for Task 1.2.
+        """
+        Exponential function
+
+        Args:
+        -----
+            None
+
+        Returns:
+        -------
+            Exponential of self as a Scalar
+        """
         return Exp.apply(self)
 
     def sigmoid(self) -> Scalar:
-        # TODO: Implement for Task 1.2.
+        """
+        Sigmoid function
+
+        Args:
+        -----
+            None
+
+        Returns:
+        -------
+            Sigmoid of self as a Scalar
+        """
         return Sigmoid.apply(self)
 
     def relu(self) -> Scalar:
-        # TODO: Implement for Task 1.2.
+        """
+        ReLU function
+
+        Args:
+        -----
+            None
+
+        Returns:
+        -------
+            ReLU of self as a Scalar
+        """
         return ReLU.apply(self)
 
     # Variable elements for backprop

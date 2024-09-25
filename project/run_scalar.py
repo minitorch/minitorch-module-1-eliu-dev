@@ -11,13 +11,23 @@ import minitorch
 class Network(minitorch.Module):
     def __init__(self, hidden_layers):
         super().__init__()
-        # TODO: Implement for Task 1.5.
         self.hidden_layers = hidden_layers
         self.layer1 = Linear(2, hidden_layers)
         self.layer2 = Linear(hidden_layers, hidden_layers)
         self.layer3 = Linear(hidden_layers, 1)
 
-    def forward(self, x):
+    def forward(self, x) -> minitorch.Scalar:
+        """
+        Forward pass for the network
+
+        Args:
+        -----
+            x: Tuple of Scalars
+
+        Returns:
+        -------
+            Scalar of forward pass result
+        """
         middle = [h.relu() for h in self.layer1.forward(x)]
         end = [h.relu() for h in self.layer2.forward(middle)]
         return self.layer3.forward(end)[0].sigmoid()
@@ -44,7 +54,17 @@ class Linear(minitorch.Module):
             )
 
     def forward(self, inputs):
-        # TODO: Implement for Task 1.5.
+        """
+        Forward pass for the linear layer
+
+        Args:
+        -----
+            inputs: Tuple of Scalars
+
+        Returns:
+        -------
+            Tuple of Scalars
+        """
         output = [minitorch.Scalar(0.0) for _ in range(len(self.bias))]
         for j in range(len(self.bias)):
             output[j] = self.bias[j].value

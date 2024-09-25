@@ -22,7 +22,6 @@ def central_difference(f: Any, *vals: Any, arg: int = 0, epsilon: float = 1e-6) 
     Returns:
         An approximation of $f'_i(x_0, \ldots, x_{n-1})$
     """
-    # TODO: Implement for Task 1.1.
     # Create lists from the input tuple for easy modification
     vals_plus = list(vals)
     vals_minus = list(vals)
@@ -74,7 +73,6 @@ def topological_sort(variable: Variable) -> Iterable[Variable]:
     Returns:
         Non-constant Variables in topological order starting from the right.
     """
-    # TODO: Implement for Task 1.4.
     visited = set()
     result = []
 

@@ -103,15 +103,16 @@ class Mul(ScalarFunction):
 
     @staticmethod
     def forward(ctx: Context, a: float, b: float) -> float:
-        # TODO: Implement for Task 1.2.
         """
         Return the product of a and b.
 
         Args:
+        ----
             a: float
             b: float
 
         Returns:
+        -------
             The product of a and b as a float.
         """
         ctx.save_for_backward(a, b)
@@ -119,14 +120,15 @@ class Mul(ScalarFunction):
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> Tuple[float, float]:
-        # TODO: Implement for Task 1.4.
         """
         Return the derivatives of a and b with respect to the output.
 
         Args:
+        -----
             d_output: float
 
         Returns:
+        -------
             The derivatives of a and b with respect to the output as a tuple.
         """
         (a, b) = ctx.saved_values
@@ -140,14 +142,15 @@ class Inv(ScalarFunction):
 
     @staticmethod
     def forward(ctx: Context, a: float) -> float:
-        # TODO: Implement for Task 1.2.
         """
         Return the inverse of a.
 
         Args:
+        -----
             a: float
 
         Returns:
+        -------
             The inverse of a as a float.
         """
         ctx.save_for_backward(a)
@@ -155,14 +158,15 @@ class Inv(ScalarFunction):
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> float:
-        # TODO: Implement for Task 1.4.
         """
         Return the derivative of a with respect to the output.
 
         Args:
+        -----
             d_output: float
 
         Returns:
+        -------
             The derivative of a with respect to the output as a float.
         """
         (a,) = ctx.saved_values
@@ -174,14 +178,15 @@ class Neg(ScalarFunction):
 
     @staticmethod
     def forward(ctx: Context, a: float) -> float:
-        # TODO: Implement for Task 1.2.
         """
         Return the negation of a.
 
         Args:
+        -----
             a: float
 
         Returns:
+        -------
             The negation of a as a float.
         """
         ctx.save_for_backward(a)
@@ -189,14 +194,15 @@ class Neg(ScalarFunction):
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> float:
-        # TODO: Implement for Task 1.4.
         """
         Return the derivative of a with respect to the output.
 
         Args:
+        -----
             d_output: float
 
         Returns:
+        -------
             The derivative of a with respect to the output as a float.
         """
         (a,) = ctx.saved_values
@@ -208,14 +214,15 @@ class Sigmoid(ScalarFunction):
 
     @staticmethod
     def forward(ctx: Context, a: float) -> float:
-        # TODO: Implement for Task 1.2.
         """
         Return the sigmoid of a.
 
         Args:
+        -----
             a: float
 
         Returns:
+        -------
             The sigmoid of a as a float.
         """
         sig = operators.sigmoid(a)
@@ -224,14 +231,15 @@ class Sigmoid(ScalarFunction):
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> float:
-        # TODO: Implement for Task 1.4.
         """
         Return the derivative of a with respect to the output.
 
         Args:
+        -----
             d_output: float
 
         Returns:
+        -------
             The derivative of a with respect to the output as a float.
         """
         (sig,) = ctx.saved_values
@@ -244,14 +252,15 @@ class ReLU(ScalarFunction):
 
     @staticmethod
     def forward(ctx: Context, a: float) -> float:
-        # TODO: Implement for Task 1.2.
         """
         Return the ReLU of a.
 
         Args:
+        -----
             a: float
 
         Returns:
+        -------
             The ReLU of a as a float.
         """
         ctx.save_for_backward(a)
@@ -259,14 +268,15 @@ class ReLU(ScalarFunction):
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> float:
-        # TODO: Implement for Task 1.4.
         """
         Return the derivative of a with respect to the output.
 
         Args:
+        -----
             d_output: float
 
         Returns:
+        -------
             The derivative of a with respect to the output as a float.
         """
         (a,) = ctx.saved_values
@@ -278,14 +288,15 @@ class Exp(ScalarFunction):
 
     @staticmethod
     def forward(ctx: Context, a: float) -> float:
-        # TODO: Implement for Task 1.2.
         """
         Return the exponential of a.
 
         Args:
+        -----
             a: float
 
         Returns:
+        -------
             The exponential of a as a float.
         """
         exp_a = operators.exp(a)
@@ -294,14 +305,15 @@ class Exp(ScalarFunction):
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> float:
-        # TODO: Implement for Task 1.4.
         """
         Return the derivative of a with respect to the output.
 
         Args:
+        -----
             d_output: float
 
         Returns:
+        -------
             The derivative of a with respect to the output as a float.
         """
         (exp_a,) = ctx.saved_values
@@ -313,29 +325,31 @@ class LT(ScalarFunction):
 
     @staticmethod
     def forward(ctx: Context, a: float, b: float) -> float:
-        # TODO: Implement for Task 1.2.
         """
         Return 1.0 if a is less than b, else return 0.0.
 
         Args:
+        -----
             a: float
             b: float
 
         Returns:
+        -------
             The result of the less-than comparison as a float.
         """
         return operators.lt(a, b)
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> Tuple[float, float]:
-        # TODO: Implement for Task 1.4.
         """
         Return the derivative of a with respect to the output.
 
         Args:
+        -----
             d_output: float
 
         Returns:
+        -------
             0 as a float because the derivative of a less-than comparison is the derivative of a constant.
         """
         return (0.0, 0.0)
@@ -346,29 +360,31 @@ class EQ(ScalarFunction):
 
     @staticmethod
     def forward(ctx: Context, a: float, b: float) -> float:
-        # TODO: Implement for Task 1.2.
         """
         Return 1.0 if a is equal to b, else return 0.0.
 
         Args:
+        -----
             a: float
             b: float
 
         Returns:
+        -------
             The result of the equality comparison as a float.
         """
         return operators.eq(a, b)
 
     @staticmethod
     def backward(ctx: Context, d_output: float) -> Tuple[float, float]:
-        # TODO: Implement for Task 1.4.
         """
         Return the derivative of a with respect to the output.
 
         Args:
+        -----
             d_output: float
 
         Returns:
+        -------
             0 as a float because the derivative of an equality comparison is the derivative of a constant.
         """
         return (0.0, 0.0)
